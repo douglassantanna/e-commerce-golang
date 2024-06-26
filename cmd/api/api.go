@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/douglassantanna/e-commerce-golang/services/user"
 	"github.com/gorilla/mux"
 )
 
@@ -23,6 +24,9 @@ func NewApiServer(addr string, db *sql.DB) *APIServer {
 func (s *APIServer) Run() error {
 	router := mux.NewRouter()
 	subrouter := router.PathPrefix("/api/v1").Subrouter()
+
+	userHandler := user.NewHandler()
+	userHandler.RegisterRoutes(subrouter)
 
 	log.Println("Listening on port:", s.addr)
 
